@@ -1,5 +1,9 @@
 mkdir -p ~/.streamlit
-echo "[server]
+echo "
+[theme]
+base="light"
+font="monospace"
+[server]
 headless = true
 port = $PORT
 enableCORS = false

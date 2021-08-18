@@ -1,3 +1,7 @@
 streamlit
 pulp
 pandas
+numpy
+scipy
+imutils
+opencv-python
