@@ -5,3 +5,7 @@ numpy
 scipy
 imutils
 opencv-python
+scikit-image
+pytorch-lightning
+torch-vision
+idx2numpy

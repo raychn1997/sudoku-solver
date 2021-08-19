@@ -1,6 +1,19 @@
 import streamlit as st
 from utility.helper import get_dataset, convert_to_data, get_board, parse_board
 from utility.solver import get_solution
+from utility.cv import read_image
+
+
+def update_quiz_from_image():
+    if 'file_uploaded' not in st.session_state:
+        quiz_data = read_image(st.session_state['uploaded_file'])
+        board_quiz = get_board(quiz_data)
+
+        # Update the quiz
+        st.session_state['quiz'] = board_quiz
+
+        # Set up a flag
+        st.session_state['file_uploaded'] = True
 
 
 def update_quiz():
@@ -24,17 +37,24 @@ def update_solution():
     if n_numbers == 81:
         st.session_state['solution'] = board_solution
     else:
-        st.session_state['solution'] = 'No valid solution possible'
+        st.session_state['solution'] = 'No valid solution possible. Maybe the OCR made a mistake?'
+
 
 # Read pre-loaded quizzes
 if 'list' not in st.session_state:
     st.session_state['list'] = get_dataset()
 
 # A select box to select a table
-table = st.selectbox('Choose a quiz',
+table = st.selectbox('Choose a pre-loaded quiz',
                      range(0, len(st.session_state['list'])),
                      key='index',
                      on_change=update_quiz)
+
+# A place to upload an image
+uploaded_file = st.file_uploader('Or upload an image', type=['jpg', 'png'],
+                                 on_change=update_quiz_from_image,
+                                 key='uploaded_file')
+
 
 col1, col2 = st.columns(2)
 # A text area to display the quiz
